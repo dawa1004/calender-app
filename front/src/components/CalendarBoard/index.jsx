@@ -1,32 +1,20 @@
 import React from "react";
-import dayjs from "dayjs";
-import "dayjs/locale/js";
-
-dayjs.locale("js");
-
-const createCalendar = () => {
-  // 今月の最初の日を追加
-  const firstDay = dayjs().startOf("month");
-
-  return Array(35)
-  .fill(0)
-  .map((_,i) => i);
-}
+import { GridList } from "@material-ui/core";
+import CalendarElement from "../CalendarElement";
+import { createCalendar } from "../../services/calendar";
+import * as styles from "./style.css";
 
 const calendar = createCalendar();
 
-import { GridList } from "@material-ui/core";
-import * as styles from "./style.css";
-
 const CalendarBoard = () => {
-  return(
+  return (
     <div className={styles.container}>
       <GridList className={styles.grid} cols={7} spacing={0} cellHeight="auto">
-      {calendar.map(c => (
-        <li>
-          <div className={styles.element}>{c}</div>
-        </li>
-      ))}
+        {calendar.map(c => (
+          <li key={c.toISOString()}>
+            <CalendarElement>{c.format("D")}</CalendarElement>
+          </li>
+        ))}
       </GridList>
     </div>
   );
